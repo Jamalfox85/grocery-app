@@ -1,36 +1,14 @@
 <template lang="">
   <FormKit
     type="form"
-    id="createAccountForm"
-    @submit="createAccount"
-    submit-label="Create Account"
+    id="signInForm"
+    @submit="signIn()"
+    submit-label="Log In"
     :submit-attrs="{
-      inputClass: 'create-account-form-submit',
+      inputClass: 'log-in-form-submit',
     }"
   >
     <div class="form_wrapper">
-      <FormKit
-        type="text"
-        name="first_name"
-        id="first_name"
-        validation="required"
-        label="First Name"
-        outer-class="form-input-wrapper half-row-input-group"
-        inner-class="input-wrapper"
-        label-class="label-text"
-        help-class="help-text"
-      />
-      <FormKit
-        type="text"
-        name="last_name"
-        id="last_name"
-        validation="required"
-        label="Last Name"
-        outer-class="form-input-wrapper half-row-input-group"
-        inner-class="input-wrapper"
-        label-class="label-text"
-        help-class="help-text"
-      />
       <FormKit
         type="text"
         name="email"
@@ -45,20 +23,9 @@
         type="password"
         name="password"
         id="password"
-        validation="?length:8|required"
+        validation="required"
         label="Password"
-        outer-class="form-input-wrapper half-row-input-group"
-        inner-class="input-wrapper"
-        label-class="label-text"
-        help-class="help-text"
-      />
-      <FormKit
-        type="password"
-        name="password_confirm"
-        id="password_confirm"
-        validation="required|confirm"
-        label="Confirm Password"
-        outer-class="form-input-wrapper half-row-input-group"
+        outer-class="form-input-wrapper"
         inner-class="input-wrapper"
         label-class="label-text"
         help-class="help-text"
@@ -72,10 +39,10 @@ export default {
     return {};
   },
   methods: {
-    createAccount(formValues) {
+    signIn(formValues) {
       console.log(formValues);
-      console.log("ACCOUNT CREATED");
-      this.$formkit.reset("createAccountForm");
+      console.log("SIGNED IN");
+      this.$formkit.reset("signInForm");
     },
   },
 };
@@ -89,12 +56,6 @@ export default {
 }
 .formkit-outer {
   width: 100%;
-  &.half-row-input-group {
-    width: 50%;
-    @media screen and (max-width: 550px) {
-      width: 100%;
-    }
-  }
 }
 .formkit-inner {
   width: 100%;
@@ -109,7 +70,7 @@ export default {
   }
 }
 
-.create-account-form-submit {
+.log-in-form-submit {
   height: 60px;
   width: 100%;
   border-radius: 48px;

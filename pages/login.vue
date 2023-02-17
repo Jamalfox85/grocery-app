@@ -5,13 +5,14 @@
         <Icon name="uil:shopping-cart" />
         Grocery App
       </div>
-      <!--Create Account Side -->
-      <div class="create-account-group">
+      <div class="left-column-form-group">
         <div class="header">
-          <h1 class="text-4xl">Create an account</h1>
-          <h2>Let's start saving you money today!</h2>
+          <h1 v-if="createAccountMode" class="text-4xl">Create an account!</h1>
+          <h1 v-else class="text-4xl">Welcome back!</h1>
+          <h2 v-if="createAccountMode">Let's start saving you money today!</h2>
         </div>
-        <createAccountForm />
+        <createAccountForm v-if="createAccountMode" />
+        <signInForm v-else />
         <div class="buttons">
           <!-- <button class="create-account-bttn">
             <p>Create Account</p>
@@ -28,15 +29,35 @@
       </div>
     </div>
     <div class="login-right">
-      <div class="switch-to-login-bttn">Log In</div>
+      <div
+        @click="switchFormMode()"
+        v-if="createAccountMode"
+        class="switch-form-mode"
+      >
+        Log In
+      </div>
+      <div @click="switchFormMode()" v-else class="switch-form-mode">
+        Create Account
+      </div>
       <img class="spiral-img" src="../assets/images/spiral.svg" />
     </div>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      createAccountMode: true,
+    };
+  },
+  methods: {
+    switchFormMode() {
+      this.createAccountMode = !this.createAccountMode;
+    },
+  },
+};
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .login_wrapper {
   height: 100vh;
   width: 100%;
@@ -47,6 +68,7 @@ export default {};
     flex-direction: column;
     align-items: center;
     flex-grow: 1;
+    min-width: 500px;
     .app-logo {
       margin-bottom: 2em;
       display: flex;
@@ -59,8 +81,8 @@ export default {};
         font-size: 1.25em;
       }
     }
-    .create-account-group {
-      padding: 4em;
+    .left-column-form-group {
+      padding: 4em 4em 0 4em;
       width: 100%;
       .header {
         margin-bottom: 2em;
@@ -106,26 +128,58 @@ export default {};
   }
   .login-right {
     height: 100%;
-    min-width: 60%;
+    width: 100%;
     background-color: #0f084b;
     border-radius: 48px;
     margin-left: auto;
     padding: 1em;
     display: flex;
     position: relative;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
-    .switch-to-login-bttn {
+    .switch-form-mode {
       background-color: #baff29;
       border-radius: 48px;
       width: fit-content;
       padding: 0.75em 1.5em;
       margin: 0 0 auto auto;
       font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      &:hover {
+        background-color: #9ee011;
+        transition: 0.1s ease-in;
+      }
     }
     .spiral-img {
       position: absolute;
       width: 100%;
       animation: rotate 5s normal linear infinite;
+    }
+  }
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+    .login-left {
+      min-width: auto;
+      .left-column-form-group {
+        padding: 2em;
+      }
+      .create-account-group {
+        padding: 1em;
+      }
+    }
+    .login-right {
+      width: 100%;
+      height: fit-content;
+      align-items: center;
+      justify-content: center;
+      .switch-form-mode {
+        width: 100%;
+        text-align: center;
+        padding: 1em;
+      }
     }
   }
 }

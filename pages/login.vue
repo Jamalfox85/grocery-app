@@ -1,18 +1,21 @@
 <template lang="">
   <div class="login_wrapper">
     <div class="login-left">
-      <div class="app-logo">Grocery App</div>
+      <div class="app-logo">
+        <Icon name="uil:shopping-cart" />
+        Grocery App
+      </div>
       <!--Create Account Side -->
       <div class="create-account-group">
         <div class="header">
           <h1 class="text-4xl">Create an account</h1>
           <h2>Let's start saving you money today!</h2>
         </div>
-        <div class="form"></div>
+        <createAccountForm />
         <div class="buttons">
-          <button class="create-account-bttn">
+          <!-- <button class="create-account-bttn">
             <p>Create Account</p>
-          </button>
+          </button> -->
           <button class="google-bttn">
             <Icon name="logos:google-icon" />
             <p>Continue with Google</p>
@@ -42,31 +45,36 @@ export default {};
   .login-left {
     display: flex;
     flex-direction: column;
+    align-items: center;
     flex-grow: 1;
     .app-logo {
-      margin-bottom: 4em;
+      margin-bottom: 2em;
+      display: flex;
+      align-items: center;
+      color: #0f084b;
+      font-size: 1.25em;
+      font-weight: bold;
+      align-self: flex-start;
+      svg {
+        font-size: 1.25em;
+      }
     }
     .create-account-group {
-      margin-left: 1em;
-      padding: 1em;
+      padding: 4em;
+      width: 100%;
       .header {
-        margin-bottom: 2em;
-      }
-      .form {
-        height: 30vh;
-        width: 100%;
-        border: solid 2px green;
         margin-bottom: 2em;
       }
       .buttons {
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 100%;
         .create-account-bttn,
         .google-bttn,
         .apple-bttn {
           height: 60px;
-          width: 70%;
+          width: 100%;
           border-radius: 48px;
           background-color: #baff29;
           display: flex;
@@ -98,7 +106,7 @@ export default {};
   }
   .login-right {
     height: 100%;
-    width: 60%;
+    min-width: 60%;
     background-color: #0f084b;
     border-radius: 48px;
     margin-left: auto;

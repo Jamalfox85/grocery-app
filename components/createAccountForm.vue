@@ -2,12 +2,17 @@
   <FormKit
     type="form"
     id="createAccountForm"
-    @submit="createAccount"
+    @submit="registerNewUser"
     submit-label="Create Account"
     :submit-attrs="{
       inputClass: 'create-account-form-submit',
     }"
   >
+    <Icon
+      v-if="loading"
+      name="svg-spinners:12-dots-scale-rotate"
+      class="loading-spinner"
+    />
     <div class="form_wrapper">
       <FormKit
         type="text"
@@ -66,21 +71,59 @@
     </div>
   </FormKit>
 </template>
+
 <script>
 export default {
+  setup() {
+    const user = useSupabaseUser();
+    const { auth } = useSupabaseClient();
+    return {
+      user,
+      auth,
+    };
+  },
   data() {
-    return {};
+    return {
+      loading: false,
+    };
   },
   methods: {
-    createAccount(formValues) {
-      console.log(formValues);
-      console.log("ACCOUNT CREATED");
-      this.$formkit.reset("createAccountForm");
+    async registerNewUser(formValues) {
+      this.loading = true;
+      try {
+        const { error } = await this.auth.signUp({
+          email: formValues.email,
+          password: formValues.password,
+          options: {
+            data: {
+              first_name: formValues.first_name,
+              last_name: formValues.last_name,
+            },
+          },
+        });
+        this.loading = false;
+        if (error) throw error;
+        else {
+          this.$formkit.reset("createAccountForm");
+          const { data, error } = await this.auth.signInWithPassword({
+            email: formValues.email,
+            password: formValues.password,
+          });
+          return navigateTo({ path: "/" });
+        }
+      } catch (error) {
+        this.$formkit.setErrors("createAccountForm", [error.message]);
+      }
     },
   },
 };
 </script>
+
 <style lang="scss">
+.loading-spinner {
+  font-size: 2em;
+  margin-bottom: 1em;
+}
 /* Wrappers */
 .form_wrapper {
   display: flex;

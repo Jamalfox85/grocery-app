@@ -1,6 +1,7 @@
 <template>
   <div>
     <NuxtPage />
+    <!-- <notifications /> -->
   </div>
 </template>
 

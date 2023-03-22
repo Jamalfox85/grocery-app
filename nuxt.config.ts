@@ -9,5 +9,11 @@ export default defineNuxtConfig({
     },
     pageTransition: { name: "page", mode: "out-in" },
   },
-  modules: ["@nuxtjs/tailwindcss", "nuxt-icon", "@formkit/nuxt"],
+  components: [{ path: "~/components", pathPrefix: false }],
+  modules: [
+    "@nuxtjs/tailwindcss",
+    "nuxt-icon",
+    "@formkit/nuxt",
+    "@nuxtjs/supabase",
+  ],
 });

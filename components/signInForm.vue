@@ -2,12 +2,17 @@
   <FormKit
     type="form"
     id="signInForm"
-    @submit="signIn()"
+    @submit="signIn"
     submit-label="Log In"
     :submit-attrs="{
       inputClass: 'log-in-form-submit',
     }"
   >
+    <Icon
+      v-if="loading"
+      name="svg-spinners:12-dots-scale-rotate"
+      class="loading-spinner"
+    />
     <div class="form_wrapper">
       <FormKit
         type="text"
@@ -35,14 +40,36 @@
 </template>
 <script>
 export default {
+  setup() {
+    const user = useSupabaseUser();
+    const { auth } = useSupabaseClient();
+    return {
+      user,
+      auth,
+    };
+  },
   data() {
-    return {};
+    return {
+      loading: false,
+    };
   },
   methods: {
-    signIn(formValues) {
-      console.log(formValues);
-      console.log("SIGNED IN");
-      this.$formkit.reset("signInForm");
+    async signIn(formValues) {
+      this.loading = true;
+      try {
+        const { data, error } = await this.auth.signInWithPassword({
+          email: formValues.email,
+          password: formValues.password,
+        });
+        this.loading = false;
+        if (error) throw error;
+        else {
+          this.$formkit.reset("signInForm");
+          return navigateTo({ path: "/" });
+        }
+      } catch (error) {
+        this.$formkit.setErrors("signInForm", [error.message]);
+      }
     },
   },
 };

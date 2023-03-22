@@ -14,17 +14,14 @@
         <createAccountForm v-if="createAccountMode" />
         <signInForm v-else />
         <div class="buttons">
-          <!-- <button class="create-account-bttn">
-            <p>Create Account</p>
-          </button> -->
-          <button class="google-bttn">
+          <button class="google-bttn" @click="signInWithGoogle">
             <Icon name="logos:google-icon" />
             <p>Continue with Google</p>
           </button>
-          <button class="apple-bttn">
+          <!-- <button class="apple-bttn">
             <Icon name="uil:apple" />
             <p>Continue with Apple</p>
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
@@ -43,23 +40,34 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  data() {
-    return {
-      createAccountMode: true,
-    };
-  },
-  methods: {
-    switchFormMode() {
-      this.createAccountMode = !this.createAccountMode;
-    },
-  },
+
+<script setup>
+const user = useSupabaseUser();
+const { auth } = useSupabaseClient();
+const router = useRouter();
+const createAccountMode = ref(true);
+
+watchEffect(async () => {
+  if (user.value) {
+    await router.push("/");
+    // return navigateTo("/");
+  }
+});
+
+async function signInWithGoogle() {
+  const { data, error } = await auth.signInWithOAuth({
+    provider: "google",
+  });
+}
+
+const switchFormMode = () => {
+  createAccountMode.value = !createAccountMode.value;
 };
 </script>
+
 <style lang="scss" scoped>
 .login_wrapper {
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   padding: 1em;
   display: flex;
@@ -127,7 +135,6 @@ export default {
     }
   }
   .login-right {
-    height: 100%;
     width: 100%;
     background-color: #0f084b;
     border-radius: 48px;

@@ -5,7 +5,7 @@
         <Icon name="material-symbols:home" />Home
       </p>
       <p
-        :class="{ active: isActivePage('/discover') }"
+        :class="{ active: isActivePage('/discover', '/recipeDetails') }"
         @click="switchPage('/discover')"
       >
         <Icon name="material-symbols:search-rounded" />Discover
@@ -21,6 +21,13 @@
         @click="switchPage('/myrecipes')"
       >
         <Icon name="material-symbols:folder-rounded" />My Recipes
+      </p>
+      <p
+        :class="{ active: isActivePage('/mycookbooks') }"
+        @click="switchPage('/mycookbooks')"
+      >
+        <Icon name="material-symbols:menu-book " />My Cookbooks
+        <!-- <Icon name="material-symbols:folder-rounded" />My Recipes -->
       </p>
       <p
         :class="{ active: isActivePage('/settings') }"
@@ -64,8 +71,8 @@ export default {
     };
   },
   methods: {
-    isActivePage(route) {
-      if (route === this.currentRoute) {
+    isActivePage(route, subroute) {
+      if (route === this.currentRoute || subroute === this.currentRoute) {
         return true;
       }
     },

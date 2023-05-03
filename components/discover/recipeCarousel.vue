@@ -2,17 +2,13 @@
   <div class="carousel_wrapper">
     <p class="carousel-header">{{ title }}</p>
     <div class="carousel-main">
-      <recipeCard />
-      <recipeCard />
-      <recipeCard />
-      <recipeCard />
-      <recipeCard />
+      <recipeCard v-for="recipe in recipeArray" :recipe="recipe" />
     </div>
   </div>
 </template>
 <script>
 export default {
-  props: ["title"],
+  props: ["title", "recipeArray"],
 };
 </script>
 <style lang="scss">
@@ -31,7 +27,6 @@ export default {
   .carousel-main {
     display: flex;
     overflow-x: scroll;
-    // width: 1100px;
     position: relative;
     padding-bottom: 1em;
     & > * {
@@ -56,8 +51,8 @@ export default {
 
     /* Handle on hover */
     &::-webkit-scrollbar-thumb:hover {
-      background: #9b62d3;
-      cursor: pointer;
+      // background: #9b62d3;
+      background: #530c9a;
     }
   }
 }

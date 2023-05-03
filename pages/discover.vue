@@ -15,10 +15,16 @@
           <recipeCarousel
             class="carousel_wrapper"
             :title="'Featured Recipes'"
+            :recipeArray="favoriteRecipes"
           />
-          <recipeCarousel :title="'Quick & Easy Recipes'" />
-          <recipeCarousel :title="'Vegan Dishes'" />
-          <!-- <recipeCard /> -->
+          <recipeCarousel
+            :title="'Low Calorie Meals'"
+            :recipeArray="lowCalRecipes"
+          />
+          <recipeCarousel
+            :title="'Vegetarian Dishes'"
+            :recipeArray="vegetarianRecipes"
+          />
         </div>
         <div class="discover-main-search" v-else>
           <Icon
@@ -38,6 +44,9 @@ export default {
     return {
       searchTerm: "",
       pendingSearch: "",
+      favoriteRecipes: [],
+      lowCalRecipes: [],
+      vegetarianRecipes: [],
     };
   },
   methods: {
@@ -49,6 +58,37 @@ export default {
       this.searchTerm = "";
     },
   },
+  async created() {
+    const favoriteRecipes = await useFetch(
+      () => `https://api.spoonacular.com/recipes/random?number=15`,
+      {
+        headers: {
+          "x-api-key": "c66733ebd8fc4f81ac6847dacc677070",
+        },
+      }
+    );
+    // const lowCalRecipes = await useFetch(
+    //   () =>
+    //     `https://api.spoonacular.com/recipes/complexSearch?number=15&maxCalories=600`,
+    //   {
+    //     headers: {
+    //       "x-api-key": "c66733ebd8fc4f81ac6847dacc677070",
+    //     },
+    //   }
+    // );
+    // const vegetarianRecipes = await useFetch(
+    //   () =>
+    //     `https://api.spoonacular.com/recipes/random?number=15&tags=vegetarian`,
+    //   {
+    //     headers: {
+    //       "x-api-key": "c66733ebd8fc4f81ac6847dacc677070",
+    //     },
+    //   }
+    // );
+    this.favoriteRecipes = favoriteRecipes.data.value?.recipes;
+    // this.lowCalRecipes = lowCalRecipes.data.value?.results;
+    // this.vegetarianRecipes = vegetarianRecipes.data.value?.recipes;
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -57,6 +97,7 @@ export default {
   flex-direction: column;
   width: 100%;
   position: relative;
+  margin: 1em;
   .discover-header {
     height: 40px;
     width: 100%;

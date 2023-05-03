@@ -16,4 +16,5 @@ export default defineNuxtConfig({
     "@formkit/nuxt",
     "@nuxtjs/supabase",
   ],
+  css: ["vue-final-modal/style.css"],
 });

@@ -21,7 +21,7 @@ export default {};
 .slot {
   display: flex;
   flex-grow: 1;
-  padding: 2em;
+  padding: 0.5em;
   width: calc(100% - 200px);
 }
 </style>

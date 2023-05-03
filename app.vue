@@ -21,4 +21,8 @@
 * {
   font-size: 16px;
 }
+.metric {
+  color: #0f084b;
+  text-shadow: 1px 1px #baff29;
+}
 </style>
